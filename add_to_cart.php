@@ -1,22 +1,34 @@
 <?php
+// Start the session
 
-include("conn.php"); // Make sure to include your database connection
+// Include database connection
+include("conn.php");
 
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["item_id"])) {
-    $item_id = $_POST["item_id"];
+// Check if the item ID is provided in the query string
+if (isset($_GET['id'])) {
+    $itemId = intval($_GET['id']); // Ensure the item ID is an integer
 
-    // Check if the cart session variable exists
-    if (!isset($_SESSION["cart"])) {
-        $_SESSION["cart"] = [];
+    // Initialize the cart in the session if it doesn't exist
+    if (!isset($_SESSION['cart'])) {
+        $_SESSION['cart'] = array();
     }
 
-    // Add the item to the cart
-    if (!in_array($item_id, $_SESSION["cart"])) {
-        $_SESSION["cart"][] = $item_id;
+    // Check if the item is already in the cart
+    if (array_key_exists($itemId, $_SESSION['cart'])) {
+        // If the item is already in the cart, increment its quantity
+        $_SESSION['cart'][$itemId]++;
+    } else {
+        // Otherwise, add the item to the cart with quantity 1
+        $_SESSION['cart'][$itemId] = 1;
     }
 
-    // Redirect back to the previous page
-    header("Location: " . $_SERVER["HTTP_REFERER"]);
+    // Redirect back to the referring page
+    $redirectUrl = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : 'index.php';
+    header("Location: $redirectUrl");
+    exit();
+} else {
+    // If no item ID is provided, redirect to the homepage
+    header("Location: index.php");
     exit();
 }
 ?>

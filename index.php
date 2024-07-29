@@ -9,7 +9,6 @@
     <link href="bootstrap.min.css" rel="stylesheet">
     <!-- Custom CSS -->
     <style>
-        /* Custom styles can be added here */
         .hero {
             background-image: url('https://victra.com/wp-content/uploads/2023/09/Apple-Launch-Landing-Page2.jpg');
             background-size: cover;
@@ -90,37 +89,36 @@
     </section>
 
     <!-- Featured Products Section -->
-  <!-- Featured Products Section -->
-<section id="featured-products" class="container mt-5">
-    <h2 class="mb-4 text-center">Featured Products</h2>
-    <div class="row">
-        <?php
-        $sqlFeatured = "SELECT * FROM items LIMIT 4"; // Adjusted query to select all items with a limit
-        $resultFeatured = $conn->query($sqlFeatured);
-        if ($resultFeatured->num_rows > 0) {
-            while ($row = $resultFeatured->fetch_assoc()) {
-                echo "<div class='col-md-3'>";
-                echo "<div class='card mb-4 h-100'>";
-                echo "<img src='" . $row["imageUrl"] . "' class='card-img-top' alt='" . $row["name"] . "'>";
-                echo "<div class='card-body'>";
-                echo "<h5 class='card-title'>" . $row["name"] . "</h5>";
-                echo "<p class='card-text'>" . $row["description"] . "</p>";
-                echo "<p class='card-price text-primary'>Rs " . number_format($row["price"], 2) . "</p>";
-                echo "<form action='add_to_cart.php' method='POST'>";
-                echo "<input type='hidden' name='item_id' value='" . $row["id"] . "'>";
-                echo "<button type='submit' class='btn btn-primary btn-add-to-cart'><i class='bi bi-cart'></i> Add to Cart</button>";
-                echo "</form>";
-                echo "</div>";
-                echo "</div>";
-                echo "</div>";
+    <section id="featured-products" class="container mt-5">
+        <h2 class="mb-4 text-center">Featured Products</h2>
+        <div class="row">
+            <?php
+            
+            $sqlFeatured = "SELECT * FROM items LIMIT 4";
+            $resultFeatured = $conn->query($sqlFeatured);
+            if ($resultFeatured->num_rows > 0) {
+                while ($row = $resultFeatured->fetch_assoc()) {
+                    echo "<div class='col-md-3'>";
+                    echo "<div class='card mb-4 h-100'>";
+                    echo "<img src='" . $row["imageUrl"] . "' class='card-img-top' alt='" . $row["name"] . "'>";
+                    echo "<div class='card-body'>";
+                    echo "<h5 class='card-title'>" . $row["name"] . "</h5>";
+                    echo "<p class='card-text'>" . $row["description"] . "</p>";
+                    echo "<p class='card-price text-primary'>Rs " . number_format($row["price"], 2) . "</p>";
+                    echo "<form action='cart.php' method='POST'>";
+                    echo "<input type='hidden' name='item_id' value='" . $row["id"] . "'>";
+                    echo "<button type='submit' class='btn btn-primary btn-add-to-cart'><i class='bi bi-cart'></i> Add to Cart</button>";
+                    echo "</form>";
+                    echo "</div>";
+                    echo "</div>";
+                    echo "</div>";
+                }
+            } else {
+                echo "<p class='text-center'>No featured products found.</p>";
             }
-        } else {
-            echo "<p class='text-center'>No featured products found.</p>";
-        }
-        ?>
-    </div>
-</section>
-
+            ?>
+        </div>
+    </section>
 
     <!-- Categories Section -->
     <section id="categories" class="container mt-5">
@@ -131,7 +129,7 @@
                     <div class="card-body">
                         <i class="bi bi-laptop" style="font-size: 4rem;"></i>
                         <h5 class="card-title mt-3">Laptops</h5>
-                        <a href="categories.php?category=Laptops" class="btn btn-outline-primary btn-sm">Shop Now</a>
+                        <a href="categories.php?category-header=Laptops" class="btn btn-outline-primary btn-sm">Shop Now</a>
                     </div>
                 </div>
             </div>
@@ -140,7 +138,7 @@
                     <div class="card-body">
                         <i class="bi bi-phone" style="font-size: 4rem;"></i>
                         <h5 class="card-title mt-3">Mobile Phones</h5>
-                        <a href="categories.php?category=Mobile%20Phones" class="btn btn-outline-primary btn-sm">Shop Now</a>
+                        <a href="categories.php?category-header=Mobile%20Phones" class="btn btn-outline-primary btn-sm">Shop Now</a>
                     </div>
                 </div>
             </div>
@@ -149,7 +147,7 @@
                     <div class="card-body">
                         <i class="bi bi-watch" style="font-size: 4rem;"></i>
                         <h5 class="card-title mt-3">Watches</h5>
-                        <a href="categories.php?category=Watches" class="btn btn-outline-primary btn-sm">Shop Now</a>
+                        <a href="categories.php?category-header=Watches" class="btn btn-outline-primary btn-sm">Shop Now</a>
                     </div>
                 </div>
             </div>
