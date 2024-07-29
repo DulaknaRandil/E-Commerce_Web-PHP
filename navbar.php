@@ -24,11 +24,9 @@
         <li class="nav-item">
           <a class="nav-link" href="categories.php">Categories</a>
         </li>
-        
         <li class="nav-item">
           <a class="nav-link" href="about.php">About</a>
         </li>
-        
       </ul>
       <div class="d-flex flex-column flex-lg-row align-items-lg-center ms-lg-auto">
         <form class="d-flex mb-2 mb-lg-0" action="categories.php" method="GET">
@@ -37,18 +35,24 @@
         </form>
         <?php if ($isLoggedIn): ?>
           <div class="dropdown ms-lg-3">
-           
             <a class="btn btn-secondary btn-sm dropdown-toggle" href="#" role="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
               <i class="bi bi-person-circle"></i> <?php echo htmlspecialchars($userData['Username'], ENT_QUOTES, 'UTF-8'); ?>
             </a>
             <ul class="dropdown-menu" aria-labelledby="userDropdown">
-            <?php if ($userData['Username'] === 'Admin'): ?>
+              <?php if ($userData['Username'] === 'Admin'): ?>
                 <li><a class="dropdown-item" href="dashboard.php">Dashboard</a></li>
-            <?php endif; ?>
+              <?php endif; ?>
               <li><a class="dropdown-item" href="logout.php">Logout</a></li>
-            
             </ul>
           </div>
+          <div class="d-flex mb-2 mb-lg-0"></div>
+          <?php if ($userData['Username'] !== 'Admin'): ?>
+            <div class="d-flex flex-lg-row align-items-lg-center ms-lg-auto">
+            <a href="cart.php" class="btn btn-secondary btn-sm ms-lg-3">
+              <i class="bi bi-cart"></i> Cart
+            </a>
+            </div>
+          <?php endif; ?>
         <?php else: ?>
           <a href="login.php" class="btn btn-secondary btn-sm ms-lg-3">Login</a>
         <?php endif; ?>

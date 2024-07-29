@@ -6,9 +6,9 @@
             <div class="col-md-4 mb-3">
                 <h5>Contact Us</h5>
                 <ul class="list-unstyled">
-                    <li>Address: 123 Street, City, Country</li>
-                    <li>Email: info@example.com</li>
-                    <li>Phone: +1234567890</li>
+                    <li>Address: 123 Borupana, Rathmalana,Sri Lanka</li>
+                    <li>Email: epicstore@gmail.com</li>
+                    <li>Phone: +94712901580</li>
                 </ul>
             </div>
             <div class="col-md-4 mb-3">
@@ -32,7 +32,7 @@
         </div>
         <hr class="my-4">
         <div class="text-center">
-            <p>&copy; 2024 Your Website. All Rights Reserved.</p>
+            <p>&copy; 2024 Epic Store. All Rights Reserved.</p>
         </div>
     </div>
 </footer>

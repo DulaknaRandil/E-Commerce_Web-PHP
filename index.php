@@ -18,32 +18,58 @@
             padding: 100px 0;
             text-align: center;
         }
+
         .hero h1 {
             font-size: 3rem;
             font-weight: bold;
             color: #fff;
         }
+
         .hero p {
             font-size: 1.5rem;
             margin-bottom: 3rem;
         }
+
         .featured-products .card {
             border: none;
             transition: transform 0.3s ease;
         }
+
         .featured-products .card:hover {
             transform: translateY(-10px);
         }
+
         .category-card .card {
             border: none;
             transition: transform 0.3s ease;
         }
+
         .category-card .card:hover {
             transform: scale(1.05);
         }
+
         .footer {
             background-color: #f8f9fa;
             padding: 3rem 0;
+        }
+
+        .card-price {
+            font-size: 1.25rem;
+            color: #007bff;
+        }
+
+        .btn-add-to-cart {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            font-size: 16px;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn-add-to-cart:hover {
+            background-color: #218838;
         }
     </style>
 </head>
@@ -58,39 +84,43 @@
                 <div class="col-md-12">
                     <h1>Welcome to Electronic Accessories Shop</h1>
                     <p>Discover the best electronic accessories for your needs.</p>
-                   
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Featured Products Section -->
-    <section id="featured-products" class="container mt-5">
-        <h2 class="mb-4 text-center">Featured Products</h2>
-        <div class="row">
-            <?php
-            $sqlFeatured = "SELECT * FROM items LIMIT 4"; // Adjusted query to select all items with a limit
-            $resultFeatured = $conn->query($sqlFeatured);
-            if ($resultFeatured->num_rows > 0) {
-                while ($row = $resultFeatured->fetch_assoc()) {
-                    echo "<div class='col-md-3'>";
-                    echo "<div class='card mb-4 h-100'>";
-                    echo "<img src='" . $row["imageUrl"] . "' class='card-img-top' alt='" . $row["name"] . "'>";
-                    echo "<div class='card-body'>";
-                    echo "<h5 class='card-title'>" . $row["name"] . "</h5>";
-                    echo "<p class='card-text'>" . $row["description"] . "</p>";
-                    echo "<p class='text-primary'>" . $row["price"] . "</p>";
-                    echo "<a href='product.php?id=" . $row["id"] . "' class='btn btn-primary'>View Details</a>";
-                    echo "</div>";
-                    echo "</div>";
-                    echo "</div>";
-                }
-            } else {
-                echo "<p class='text-center'>No featured products found.</p>";
+  <!-- Featured Products Section -->
+<section id="featured-products" class="container mt-5">
+    <h2 class="mb-4 text-center">Featured Products</h2>
+    <div class="row">
+        <?php
+        $sqlFeatured = "SELECT * FROM items LIMIT 4"; // Adjusted query to select all items with a limit
+        $resultFeatured = $conn->query($sqlFeatured);
+        if ($resultFeatured->num_rows > 0) {
+            while ($row = $resultFeatured->fetch_assoc()) {
+                echo "<div class='col-md-3'>";
+                echo "<div class='card mb-4 h-100'>";
+                echo "<img src='" . $row["imageUrl"] . "' class='card-img-top' alt='" . $row["name"] . "'>";
+                echo "<div class='card-body'>";
+                echo "<h5 class='card-title'>" . $row["name"] . "</h5>";
+                echo "<p class='card-text'>" . $row["description"] . "</p>";
+                echo "<p class='card-price text-primary'>Rs " . number_format($row["price"], 2) . "</p>";
+                echo "<form action='add_to_cart.php' method='POST'>";
+                echo "<input type='hidden' name='item_id' value='" . $row["id"] . "'>";
+                echo "<button type='submit' class='btn btn-primary btn-add-to-cart'><i class='bi bi-cart'></i> Add to Cart</button>";
+                echo "</form>";
+                echo "</div>";
+                echo "</div>";
+                echo "</div>";
             }
-            ?>
-        </div>
-    </section>
+        } else {
+            echo "<p class='text-center'>No featured products found.</p>";
+        }
+        ?>
+    </div>
+</section>
+
 
     <!-- Categories Section -->
     <section id="categories" class="container mt-5">

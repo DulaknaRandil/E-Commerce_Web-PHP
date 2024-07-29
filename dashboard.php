@@ -2,8 +2,6 @@
 // Include database connection file
 include("conn.php");
 
-// Start session
-
 
 // Check if user is logged in
 if (!isset($_SESSION['username'])) {
@@ -22,6 +20,10 @@ $resultItems = $conn->query($sqlItems);
 // Query to fetch users from database
 $sqlUsers = "SELECT * FROM user";
 $resultUsers = $conn->query($sqlUsers);
+
+// Query to fetch orders from database
+$sqlOrders = "SELECT orders.id AS order_id, orders.order_date, orders.total_amount, user.Username AS customer_name FROM orders JOIN user ON orders.user_id = user.UserID";
+$resultOrders = $conn->query($sqlOrders);
 ?>
 
 <?php if (isset($_GET['toastMessage']) && !empty($_GET['toastMessage'])): ?>
@@ -105,6 +107,11 @@ $resultUsers = $conn->query($sqlUsers);
                         <li class="nav-item">
                             <a class="nav-link" href="#users-section">
                                 <i class="bi bi-people"></i> Users
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#orders-section">
+                                <i class="bi bi-cart"></i> Orders
                             </a>
                         </li>
                     </ul>
@@ -208,6 +215,53 @@ $resultUsers = $conn->query($sqlUsers);
                             </table>
                         </div>
                     </div>
+
+                    <hr class="mt-5">
+
+                    <!-- Orders Section -->
+                    <h2 id="orders-section">Orders</h2>
+                    <!-- Search Bar for Orders -->
+                    <div class="input-group mb-3">
+                        <input type="text" id="orderSearch" class="form-control" placeholder="Search Orders" aria-label="Search Orders" aria-describedby="button-addon2">
+                    </div>
+                    <!-- Orders Table -->
+                    <div class="card mt-4">
+                        <div class="card-body">
+                            <h5 class="card-title">Orders List</h5>
+                            <table class="table table-hover" id="ordersTable">
+                                <thead>
+                                    <tr>
+                                        <th>Order ID</th>
+                                        <th>Order Date</th>
+                                        <th>Customer Name</th>
+                                        <th>Total Amount</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    // Output orders data
+                                    if ($resultOrders->num_rows > 0) {
+                                        while($row = $resultOrders->fetch_assoc()) {
+                                            echo "<tr>";
+                                            echo "<td>".$row["order_id"]."</td>";
+                                            echo "<td>".$row["order_date"]."</td>";
+                                            echo "<td>".$row["customer_name"]."</td>";
+                                            echo "<td>".$row["total_amount"]."</td>";
+                                            echo "<td>";
+                                            echo "<a href='view_order.php?id=".$row["order_id"]."' class='btn btn-sm btn-primary'>View</a> ";
+                                            echo "<a href='delete_order.php?id=".$row["order_id"]."' class='btn btn-sm btn-danger'>Delete</a>";
+                                            echo "</td>";
+                                            echo "</tr>";
+                                        }
+                                    } else {
+                                        echo "<tr><td colspan='5'>No orders found</td></tr>";
+                                    }
+                                    ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </main>
         </div>
@@ -240,6 +294,22 @@ $resultUsers = $conn->query($sqlUsers);
                 var username = row.cells[1].textContent.toLowerCase();
                 var userEmail = row.cells[2].textContent.toLowerCase();
                 if (username.includes(searchValue) || userEmail.includes(searchValue)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+
+        document.getElementById('orderSearch').addEventListener('keyup', function() {
+            var searchValue = this.value.toLowerCase();
+            var tableRows = document.querySelectorAll('#ordersTable tbody tr');
+            tableRows.forEach(function(row) {
+                var orderId = row.cells[0].textContent.toLowerCase();
+                var orderDate = row.cells[1].textContent.toLowerCase();
+                var customerName = row.cells[2].textContent.toLowerCase();
+                var totalAmount = row.cells[3].textContent.toLowerCase();
+                if (orderId.includes(searchValue) || orderDate.includes(searchValue) || customerName.includes(searchValue) || totalAmount.includes(searchValue)) {
                     row.style.display = '';
                 } else {
                     row.style.display = 'none';
